@@ -2,6 +2,7 @@ from website_extract import read_state
 import os
 import time
 import shutil
+import re
 
 state = read_state()
 
@@ -25,7 +26,10 @@ for i in range(200):
 	winner = str(state['status'])
 
 	try:
-		shutil.move(vid_path + '.flv', vid_path + 'w' + winner + '.flv')
+		vid_name = vid_path + 'w' + winner + '.flv'
+		shutil.move(vid_path + '.flv', vid_name)
+		img_path = re.sub(r"\.flv", r"%3d.png", vid_name)
+		os.system("ffmpeg -i " + vid_name + " -r 1 -t 1 " + img_path)
 	except:
 		print "missed a betting round.  skipping"
 		wait_for_bets()
