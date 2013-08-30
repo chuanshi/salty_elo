@@ -60,3 +60,4 @@ def regenerate_db(matches, outname):
 	for match in matches:
 		add_match(match[0], match[1], match[2], new_db, matches, real=False)
 	pickle.dump(new_db, open(outname, 'w'))
+

@@ -14,8 +14,9 @@ def wait_for_bets():
 
 wait_for_bets()
 
-for i in range(200):
+for i in range(1000):
 	wait_for_bets()
+
 	vid_path = os.path.join('vid_dir', str(i).zfill(3))
 	os.system("timeout 1.5 livestreamer www.twitch.tv/saltybet Source -o " + vid_path + ".flv")
 	
