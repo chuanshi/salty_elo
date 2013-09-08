@@ -39,13 +39,13 @@ def add_match(p1, p2, winner, db, matches, real=True):
 	return True
 
 def predict_match(p1, p2, db):
+	if p1 in db.keys():
+		print p1, 'rating is', db[p1].rating
+	if p2 in db.keys():
+		print p2, 'rating is', db[p2].rating
 	if p1 in db.keys() and p2 in db.keys():
 		print getExpectation(db[p1].rating, db[p2].rating) * 100., "% ", p1, "wins over", p2
-	elif p1 in db.keys():
-		print p1, 'rating is', db[p1].rating
-	elif p2 in db.keys():
-		print p2, 'rating is', db[p2].rating
-	else:
+	if p1 not in db.keys() and p2 not in db.keys():
 		print 'no info'
 
 def save_db(db, matches):

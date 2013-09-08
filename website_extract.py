@@ -10,7 +10,7 @@ def read_state():
         data = opener.open(request).read()
     except:
 	print "WARNING! Unable to obtain state.json.  Are you not logged in?"
-        return {}
+        return {'status' : 'unreachable'}
     return json.loads(data)
 
 def get_winner():

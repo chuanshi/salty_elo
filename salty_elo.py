@@ -31,9 +31,21 @@ while True:
 		p1 = raw_input('player 1?').upper()
 		p2 = raw_input('player 2?').upper()
 		predict_match(p1, p2, db) 
+
 		for match in matches:
-			if p1 in match or p2 in match:
-				print match
+			if p1 in match:
+				if int(match[2]) - 1 == match.index(p1):
+					print p1, "beat", match[2 - int(match[2])]
+				else:
+					print match[int(match[2]) - 1], "beat", p1
+
+		for match in matches:
+			if p2 in match:
+				if int(match[2]) - 1 == match.index(p2):
+					print p2, "beat", match[2 - int(match[2])]
+				else:
+					print match[int(match[2]) - 1], "beat", p2
+
 	elif query == 'a' or query == 'add':
 		p1 = raw_input('player 1?').upper()
 		p2 = raw_input('player 2?').upper()
