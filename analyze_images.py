@@ -47,6 +47,8 @@ if __name__ == '__main__':
 
 	for image in images:
 		match = ocr_match_from_image(image)
+                if len(match) == 0:
+                        continue
 		if match[0] in db.keys() and match[1] in db.keys():
 			print "Found both!", match
 			matches.append(match)
