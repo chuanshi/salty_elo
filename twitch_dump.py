@@ -3,6 +3,8 @@ import os
 import time
 import shutil
 import re
+from ocr_clean import *
+from analyze_images import *
 
 state = read_state()
 
@@ -38,4 +40,8 @@ if __name__ == "__main__":
 			print "missed a betting round.  skipping"
 			wait_for_bets()
 			continue
+
+		image_path = vid_path + 'w' + winner + '001.png'
+		print ocr_match_from_image(image_path)
+
 
