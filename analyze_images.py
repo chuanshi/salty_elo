@@ -13,7 +13,7 @@ def ocr_match_from_image(image_path):
 	red_image = os.path.join(path, "cleaned_red_" + basename)
 	blue_image = os.path.join(path, "cleaned_blue_" + basename)
 	winner = basename[4]  # assumes image file name of the form 902w1001.png
-	os.system('tesseract -l eng+eng1 ' + red_image + ' /tmp/red')
+	os.system('tesseract -l eng+eng2 ' + red_image + ' /tmp/red')
 	f = open('/tmp/red.txt')
 	text = f.readlines()
 	if len(text) > 0:
@@ -22,7 +22,7 @@ def ocr_match_from_image(image_path):
 		os.system('rm -f /tmp/red.txt')
 		return []
 	f.close()
-	os.system('tesseract -l eng+eng1 ' + blue_image + ' /tmp/blue')
+	os.system('tesseract -l eng+eng2 ' + blue_image + ' /tmp/blue')
 	f = open('/tmp/blue.txt')
 	text = f.readlines()
 	if len(text) > 0:

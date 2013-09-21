@@ -13,5 +13,5 @@ for char in db.keys():
         if len(word) > 1:
             word_list.append(word)
 
-with open('eng1.user-words', 'w') as f:
+with open('eng2.user-words', 'w') as f:
     f.writelines(("%s\n" % l for l in word_list))
