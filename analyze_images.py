@@ -6,7 +6,7 @@ import json
 from ocr_clean import *
 from elo_funcs import *
 
-def ocr_match_from_image(image_path):
+def ocr_match_from_image(image_path, cleanup=False):
 	clean_image(image_path)
 	path = os.path.dirname(image_path)
 	basename = os.path.basename(image_path)
@@ -34,6 +34,11 @@ def ocr_match_from_image(image_path):
 	os.system('rm -f /tmp/red.txt')
 	os.system('rm -f /tmp/blue.txt')
 	match = [red_text, blue_text, winner]
+
+	if cleanup:
+		os.remove(red_image)
+		os.remove(blue_image)
+
 	return match
 
 if __name__ == '__main__':

@@ -15,33 +15,42 @@ def wait_for_bets():
 		state = read_state()
 		time.sleep(15)
 
+def video_to_png(video_path):
+	"""converts a .flv video to a .png"""
+	img_path = re.sub(r"\.flv", r"\.png", video_path)
+	os.system("ffmpeg -i " + video_path + " -r 1 -t 1 " + img_path)
+	return img_path
+
+
 if __name__ == "__main__":
 	wait_for_bets()
 
 	for i in range(1000):
 		wait_for_bets()
 
-		vid_path = os.path.join('vid_dir', str(i).zfill(3))
-		os.system("timeout 1.5 livestreamer www.twitch.tv/saltybet Source -o " + vid_path + ".flv")
-		
+		vid_path = os.path.join('vid_dir', str(i).zfill(3) + ".flv")
+		os.system("timeout 1.5 livestreamer www.twitch.tv/saltybet Source -o " + vid_path)
+
+		if not os.path.exists(vid_path):
+			print "missed a betting round.  skipping"
+			time.sleep(30)
+			continue
+		img_path = video_to_png(vid_path)
+		p1, p2, winner = ocr_match_from_image(img_path, cleanup=True)
+
 		time.sleep(25)
 		while state['status'] not in ['1', '2']:  # wait for result
 			state = read_state()
 			time.sleep(15)
 		winner = str(state['status'])
 
-		try:
-			vid_name = vid_path + 'w' + winner + '.flv'
-			shutil.move(vid_path + '.flv', vid_name)
-			img_path = re.sub(r"\.flv", r"%3d.png", vid_name)
-			os.system("ffmpeg -i " + vid_name + " -r 1 -t 1 " + img_path)
-			os.system("rm vid_dir/*00[23].png") # workaround for accidentally capturing > 1 frame
-		except:
-			print "missed a betting round.  skipping"
-			wait_for_bets()
-			continue
+		# rename video and images with winner
+		vid_name = os.path.join('vid_dir', str(i).zfill(3) + 'w' + winner + '.flv')
+		img_name = os.path.join('vid_dir', str(i).zfill(3) + 'w' + winner + '.png')
+		shutil.move(vid_path, vid_name)
+		shutil.move(img_path, img_name)
 
-		image_path = vid_path + 'w' + winner + '001.png'
-		print ocr_match_from_image(image_path)
+		match = ocr_match_from_image(img_name)
+		print match
 
 
