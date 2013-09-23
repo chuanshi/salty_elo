@@ -51,7 +51,7 @@ if __name__ == '__main__':
 	matches = json.load(open('matches.json', 'r'))
 
 	for image in images:
-		match = ocr_match_from_image(image)
+		match = ocr_match_from_image(image, cleanup=True)
                 if len(match) == 0:
                         continue
 		if match[0] in db.keys() and match[1] in db.keys():

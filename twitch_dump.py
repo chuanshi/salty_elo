@@ -3,8 +3,11 @@ import os
 import time
 import shutil
 import re
+import json
+import pickle
 from ocr_clean import *
 from analyze_images import *
+from salty_elo import predict
 
 state = read_state()
 
@@ -17,12 +20,15 @@ def wait_for_bets():
 
 def video_to_png(video_path):
 	"""converts a .flv video to a .png"""
-	img_path = re.sub(r"\.flv", r"\.png", video_path)
+	img_path = re.sub(r"flv", r"png", video_path)
 	os.system("ffmpeg -i " + video_path + " -r 1 -t 1 " + img_path)
 	return img_path
 
 
 if __name__ == "__main__":
+        db = pickle.load(open('db.pickle'))
+        matches = json.load(open('matches.json', 'r'))
+
 	wait_for_bets()
 
 	for i in range(1000):
@@ -36,8 +42,9 @@ if __name__ == "__main__":
 			time.sleep(30)
 			continue
 		img_path = video_to_png(vid_path)
-		p1, p2, winner = ocr_match_from_image(img_path, cleanup=True)
-
+		match = ocr_match_from_image(img_path, cleanup=True)
+                if len(match) > 1:
+                        predict(match[0], match[1], db, matches)
 		time.sleep(25)
 		while state['status'] not in ['1', '2']:  # wait for result
 			state = read_state()
