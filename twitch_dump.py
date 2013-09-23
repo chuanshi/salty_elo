@@ -35,7 +35,7 @@ if __name__ == "__main__":
 		wait_for_bets()
 
 		vid_path = os.path.join('vid_dir', str(i).zfill(3) + ".flv")
-		os.system("timeout 1.5 livestreamer www.twitch.tv/saltybet Source -o " + vid_path)
+		os.system("timeout 2.0 livestreamer www.twitch.tv/saltybet Source -o " + vid_path)
 
 		if not os.path.exists(vid_path):
 			print "missed a betting round.  skipping"
