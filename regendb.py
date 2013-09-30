@@ -1,4 +1,5 @@
 import json
-from elo_funcs import regenerate_db
+from elo_funcs import regenerate_db, save_db
 matches = json.load(open('matches.json'))
-regenerate_db(matches, 'db.pickle')
+db = regenerate_db(matches, 'db.pickle')
+save_db(db, matches)

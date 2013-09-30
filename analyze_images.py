@@ -59,5 +59,5 @@ if __name__ == '__main__':
 			matches.append(match)
 			os.remove(image)
 
-	regenerate_db(matches, 'db.pickle')
+	db = regenerate_db(matches, 'db.pickle')
 	save_db(db, matches)

@@ -16,7 +16,7 @@ def wait_for_bets():
 
 	while state['status'] != 'open':  
 		state = read_state()
-		time.sleep(15)
+		time.sleep(13)
 
 def video_to_png(video_path):
 	"""converts a .flv video to a .png"""
@@ -48,8 +48,8 @@ if __name__ == "__main__":
 		time.sleep(25)
 		while state['status'] not in ['1', '2']:  # wait for result
 			state = read_state()
-			time.sleep(15)
-		winner = str(state['status'])
+			time.sleep(13)
+		winner = state['status']
 
 		# rename video and images with winner
 		vid_name = os.path.join('vid_dir', str(i).zfill(3) + 'w' + winner + '.flv')
