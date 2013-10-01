@@ -4,7 +4,7 @@ import sys
 
 def predict(p1, p2, db, matches):
         predict_match(p1, p2, db) 
-
+        print
 	for match in matches:
 		if p1 in match:
                         other = list(set(match) - set([p1]) - set(['1', '2']))[0]
@@ -12,7 +12,7 @@ def predict(p1, p2, db, matches):
 				print "{0} beat {1}({2})".format(p1, other, db[other].rating)
 			else:
 				print "{0}({2}) beat {1}".format(other, p1, db[other].rating)
-
+        print
 	for match in matches:
 		if p2 in match:
                         other = list(set(match) - set([p2]) - set(['1', '2']))[0]
@@ -43,8 +43,11 @@ if __name__ == "__main__":
     while True:
             query = raw_input('command? ("(a)dd", "(p)redict", "(q)uit", "(s)ave"), "(l)ist"')
             if query == 'q' or query == 'quit':
-                    save_db(db, matches)
-                    sys.exit()
+                    temp_query = raw_input('are you sure (y/n)? you should save first if you have not already!')
+                    if temp_query == 'y':
+                            sys.exit()
+                    else:
+                            print "input 'y' to quit"
             elif query == 'p' or query == 'predict':
                     p1 = raw_input('player 1?').upper()
                     p2 = raw_input('player 2?').upper()

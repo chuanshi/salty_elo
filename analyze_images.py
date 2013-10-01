@@ -34,7 +34,7 @@ def ocr_match_from_image(image_path, cleanup=False):
 	os.system('rm -f /tmp/red.txt')
 	os.system('rm -f /tmp/blue.txt')
 	match = [red_text, blue_text, winner]
-
+        
 	if cleanup:
 		os.remove(red_image)
 		os.remove(blue_image)
@@ -52,7 +52,9 @@ if __name__ == '__main__':
 
 	for image in images:
 		match = ocr_match_from_image(image, cleanup=True)
-                if len(match) == 0:
+                if len(match) < 3:
+                        continue
+                if match[2] not in ['1', '2']:  # hack to work around 000.png etc.
                         continue
 		if match[0] in db.keys() and match[1] in db.keys():
 			print "Found both!", match

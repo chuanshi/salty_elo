@@ -1,6 +1,7 @@
 import math
 import pickle
 import json
+import shutil
 
 class Player:
 	def __init__(self, name):
@@ -49,6 +50,8 @@ def predict_match(p1, p2, db):
 		print 'no info'
 
 def save_db(db, matches):
+        shutil.copy('db.pickle', 'db.pickle.old')
+        shutil.copy('matches.json', 'matches.json.old')
 	pickle.dump(db, open('db.pickle', 'w'))
 	json.dump(matches, open('matches.json', 'w'))
 
