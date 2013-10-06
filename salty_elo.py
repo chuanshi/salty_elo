@@ -2,25 +2,33 @@ from elo_funcs import *
 from website_extract import *
 import sys
 
+def list_matches(player, db, matches):
+        match_list = []
+        for match in matches:
+                if player in match:
+                        other = list(set(match) - set([player]) - set(['1', '2']))[0]
+                        if int(match[2]) - 1 == match.index(player):
+                                wl = "W"
+                        else:
+                                wl = "L"
+                        match_list.append([player, other, round(db[other].rating, 1), wl])
+        match_list = sorted(match_list, key=lambda ml:ml[2])
+        match_list.reverse()
+        return match_list
+                        
+
 def predict(p1, p2, db, matches):
         predict_match(p1, p2, db) 
         print
-	for match in matches:
-		if p1 in match:
-                        other = list(set(match) - set([p1]) - set(['1', '2']))[0]
-			if int(match[2]) - 1 == match.index(p1):
-				print "{0} beat {1}({2})".format(p1, other, db[other].rating)
-			else:
-				print "{0}({2}) beat {1}".format(other, p1, db[other].rating)
+        print p1 + "(" + str(round(db[p1].rating, 1)) + ")", "match history:"
+        ml = list_matches(p1, db, matches)
+        for m in ml:
+                print m[3], m[2], m[1]
         print
-	for match in matches:
-		if p2 in match:
-                        other = list(set(match) - set([p2]) - set(['1', '2']))[0]
-			if int(match[2]) - 1 == match.index(p2):
-                                print "{0} beat {1}({2})".format(p2, other, db[other].rating)
-			else:
-				print "{0}({2}) beat {1}".format(other, p2, db[other].rating)
-
+        print p2 + "(" + str(round(db[p2].rating, 1)) + ")", "match history:"
+        ml = list_matches(p2, db, matches)
+        for m in ml:
+                print m[3], m[2], m[1]
 
 if __name__ == "__main__":
     reset = False

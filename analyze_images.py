@@ -3,6 +3,7 @@ import glob
 import sys
 import pickle
 import json
+import re
 from ocr_clean import *
 from elo_funcs import *
 
@@ -60,6 +61,11 @@ if __name__ == '__main__':
 			print "Found both!", match
 			matches.append(match)
 			os.remove(image)
+                else:
+                        outname = re.sub('png', 'txt', image)
+                        f = open(outname, 'w')
+                        f.write(str(match))
+                        f.close()
 
 	db = regenerate_db(matches, 'db.pickle')
 	save_db(db, matches)

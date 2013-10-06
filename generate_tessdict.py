@@ -10,7 +10,7 @@ word_list = []
 
 for char in db.keys():
     for word in char.split(' '):
-        if len(word) > 1:
+        if len(word) > 0:
             word_list.append(word)
 
 with open('eng2.user-words', 'w') as f:
