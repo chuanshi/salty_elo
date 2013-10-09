@@ -7,6 +7,27 @@ import re
 from ocr_clean import *
 from elo_funcs import *
 
+def clean_match(match):
+        """cleans up known OCR issues in a match
+        ambig_dict is of the form ocr_mistake:actual_charname"""
+        ambig_dict = {
+                "CHAR E ZAKU" : "CHAR S ZAKU",
+                "GOKU SSJ4 DB FINAL BOI" : "GOKU SSJ4 DB FINAL BOUT",
+                "TIN E FERNANDEATH" : "TIN S FERNANDEATH",
+                "MR 5HIHAN KI-" : "MR SHIHAN KY",
+                "AGITO OF THE DAE" : "AGITO OF THE DARK",
+                "SABETH BLANCTORCHE XIII" : "ELISABETH BLANCTORCHE XIII",
+                "SOHAN GRANDE NORMALE" : "GOHAN GRANDE NORMALE",
+                "SAGAT MB-OE" : "SAGAT MB-02",
+                "CHAR E Z EDI-" : "CHAR S Z GOK",
+                
+                }
+        for i, item in enumerate(match):
+                if item in ambig_dict.keys():
+                        match[i] = ambig_dict[item]
+        return match
+                
+
 def ocr_match_from_image(image_path, cleanup=False):
 	clean_image(image_path)
 	path = os.path.dirname(image_path)
@@ -40,7 +61,8 @@ def ocr_match_from_image(image_path, cleanup=False):
 		os.remove(red_image)
 		os.remove(blue_image)
 
-	return match
+	# return match
+        return clean_match(match)
 
 if __name__ == '__main__':
 	path = sys.argv[1]

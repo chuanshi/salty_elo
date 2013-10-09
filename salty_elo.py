@@ -19,13 +19,14 @@ def list_matches(player, db, matches):
 
 def predict(p1, p2, db, matches):
         predict_match(p1, p2, db) 
-        print
-        print p1 + "(" + str(round(db[p1].rating, 1)) + ")", "match history:"
+        if p1 in db.keys():
+                print p1 + "(" + str(round(db[p1].rating, 1)) + ")", "match history:"
         ml = list_matches(p1, db, matches)
         for m in ml:
                 print m[3], m[2], m[1]
         print
-        print p2 + "(" + str(round(db[p2].rating, 1)) + ")", "match history:"
+        if p2 in db.keys():
+                print p2 + "(" + str(round(db[p2].rating, 1)) + ")", "match history:"
         ml = list_matches(p2, db, matches)
         for m in ml:
                 print m[3], m[2], m[1]
