@@ -29,7 +29,10 @@ def clean_match(match):
                 
 
 def ocr_match_from_image(image_path, cleanup=False):
-	clean_image(image_path)
+	try:
+                clean_image(image_path)
+        except:
+                return []
 	path = os.path.dirname(image_path)
 	basename = os.path.basename(image_path)
 	red_image = os.path.join(path, "cleaned_red_" + basename)

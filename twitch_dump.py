@@ -39,7 +39,7 @@ if __name__ == "__main__":
 		vid_path = os.path.join('vid_dir', str(i).zfill(3) + ".flv")
 		os.system("timeout 2.0 livestreamer www.twitch.tv/saltybet Source -o " + vid_path)
 
-		if not os.path.exists(vid_path):
+		if not os.path.exists(vid_path) or os.path.getsize(vid_path) < 1:
 			print "missed a betting round.  skipping"
 			time.sleep(30)
 			continue
